@@ -11,7 +11,7 @@
         <template>
             <template>Speedtest</template>
             <name>Speedtest</name>
-            <description>Check the ping status, up and download bandwith</description>
+            <description>Check the ping status, up and download bandwidth</description>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -19,7 +19,7 @@
             </groups>
             <applications>
                 <application>
-                    <name>Bandwith</name>
+                    <name>Bandwidth</name>
                 </application>
             </applications>
             <items>
@@ -253,7 +253,7 @@
     </templates>
     <graphs>
         <graph>
-            <name>Speedtest - Bandwith</name>
+            <name>Speedtest - Bandwidth</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
