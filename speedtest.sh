@@ -17,28 +17,28 @@ run_speedtest() {
     touch "$LOCK_FILE"
     trap "rm -rf $LOCK_FILE" EXIT HUP INT QUIT PIPE TERM
 
-    local output date location_id location ping download upload
+    local output date location_id location ping download upload distance local_ip city
     local download_mb upload_mb
 
     output=$(python /usr/local/bin/speedtest --server 20531 --csv --csv-delimiter '|')
 
     # Debug
-    # new output=6889|Twin Valley Communications|Miltonvale, KS|2019-02-15T00:30:00.344076Z|76.63434604957892|26.276|222487444.93646407|32353150.5438985||70.179.147.69
-    # old output='2017-09-22 09:15:02 +0000|4997|"inexio (Saarlouis, Germany)"|30.30|82121|19392'
+    # output=6889|Twin Valley Communications|Miltonvale, KS|2019-02-15T00:30:00.344076Z|76.63434604957892|26.276|222487444.93646407|32353150.5438985||70.179.147.69
     # sleep 10
 
     echo "Output: $output"
 
     # Extract fields
-    date=$(echo "$output" | cut -f4 -d '|')
     location_id=$(echo "$output" | cut -f1 -d '|')
     location=$(echo "$output" | cut -f2 -d '|' | sed 's/^"\(.*\)"$/\1/g')
-    ping=$(echo "$output" | cut -f6 -d '|')
+    city=$(echo "$output" | cut -f3 -d '|')
+    date=$(echo "$output" | cut -f4 -d '|')
+	distance=$(echo "$output" | cut -f5 -d '|')
+	ping=$(echo "$output" | cut -f6 -d '|')
     download=$(echo "$output" | cut -f7 -d '|')
     upload=$(echo "$output" | cut -f8 -d '|')
-    distance=$(echo "$output" | cut -f5 -d '|')
     local_ip=$(echo "$output" | cut -f10 -d '|')
-    city=$(echo "$output" | cut -f3 -d '|')
+
     # Convert to MBit/s
     download_mb=$(echo "$download" | awk '{ printf("%.2f\n", $1 / 1048576) }')
     upload_mb=$(echo "$upload" | awk '{ printf("%.2f\n", $1 / 1048576) }')
